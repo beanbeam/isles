@@ -1,0 +1,3 @@
+[submodule "scurses"]
+	path = scurses
+	url = https://github.com/beanbeam/scurses.git
