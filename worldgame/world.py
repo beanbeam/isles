@@ -14,7 +14,7 @@ def load(win, filename):
     return World(win, (tiles, metad,
                        ["World loaded from %s in %s seconds" %
                          (filename, load_end-load_start)]),
-                      player.Player(win, plyr[0], plyr[1], plyr[2]))  
+                      player.Player(win, plyr[0], plyr[1],  player.Stats(100, 100), plyr[2], plyr[3], None, plyr[4]))  
 
 class World(object):
   def __init__(self, window, wmap, player):
@@ -46,26 +46,47 @@ class World(object):
             self.tid_at(x-1, y))
 
   def draw(self, x = None, y = None):
+    # Generation info
+    for i, line in enumerate(self._gen_info):
+      self._window.draw_string(self._window.width+1, i, line)
+    
     if x is None: x = self._player.x
     if y is None: y = self._player.y
     w = self._window.width
     h = self._window.height
-    for i, j, tile, meta, neig in self._tiles_within(x-(w/2), y-(h/2), w, h-1):
+    for i, j, tile, meta, neig in self._tiles_within(x-(w/2), y-(h/2), w, h-2):
       tile.draw(i, j, meta, neig)
     self._player.draw(w/2,h/2)
-    self._window.draw_string(0,h-1, "(%s,%s)%s" % (x, y, " "*w))
+    self._window.draw_string(0,h-2, "(%s,%s)%s" % (x, y, " "*w))
+
+    # Health bar
+    hp_width = w/2
+    hp = self._player.health
+    hp_max = self._player._stats.max_health
+    hp_filled = hp_width*hp/hp_max
+    health_string = (" HP: %s/%s" % (hp, hp_max) + " "*hp_width)[:hp_width]
+    self._window.draw_string(0,h-1, health_string[:hp_filled], 15)
+    self._window.draw_string(hp_filled, h-1, health_string[hp_filled:], 16)
     
+    # Mana bar
+    mp_width = w-hp_width
+    mp = self._player.mana
+    mp_max = self._player._stats.max_mana
+    mp_filled = mp_width*mp/mp_max
+    mana_string = (" MP: %s/%s" % (mp, mp_max) + " "*mp_width)[:mp_width]
+    self._window.draw_string(hp_width,h-1, mana_string[:mp_filled], 4) 
+    self._window.draw_string(hp_width+mp_filled, h-1, mana_string[mp_filled:], 17)
+    
+    # Tile information
     facing_t = apply(self.tile_at, self._player.front())
     facing_m = apply(self.meta_at, self._player.front())
 
     tile_name = facing_t.name_when(facing_m, ())
-    self._window.draw_string(w-len(tile_name), h-1, tile_name)
+    self._window.draw_string(w-len(tile_name), h-2, tile_name)
     
     tile_ints = 1 if len(facing_t.interactions_when(facing_m, ())) > 0 else 0
-    self._window.draw_string(w-len(tile_name)-2, h-1, " ", tile_ints)
+    self._window.draw_string(w-len(tile_name)-2, h-2, " ", tile_ints)
 
-    for i, line in enumerate(self._gen_info):
-      self._window.draw_string(self._window.width+1, i, line)
 
   def _tiles_within(self, x, y, w, h):
     for i in range(x, x+w):

@@ -83,7 +83,10 @@ color_list = ((BLACK, WHITE),
               (BLUE,  GREEN),
               (BLUE,  YELLOW),
               (BLUE,  245),
-              (BLUE,  WHITE))
+              (BLUE,  WHITE),
+              (WHITE, RED),
+              (WHITE, 52),
+              (WHITE, 17))
 
 def tile_list(win):
   return (Tile(win,

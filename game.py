@@ -52,7 +52,7 @@ def main_game(win, load=None):
 
   if load == None:
     w = world.World(win, generator.new_map(mwidth, mheight),
-                         player.Player(win, mwidth/2, mheight/2, {}))
+                         player.Player(win, mwidth/2, mheight/2, player.Stats(100, 100), 30, 30))
     w.spawn_player_near(mwidth/2,mheight/2, 25)
   elif os.path.exists(load):
     w = world.load(win, load)
