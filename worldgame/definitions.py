@@ -181,8 +181,8 @@ def _gate_char(md, bs):
   if md%2 == 0: return "#"
   if ((n == _GATE_ID or n == _WALL_ID) and
       (s == _GATE_ID or s == _WALL_ID)):
-      return "︙"
-  return "…"
+      return "┊"
+  return "┈"
 
 
 DOUBLE_LINES = ("▫", "║", "═", "╚", "╔", "╗", "╝", "╩", "╠", "╦", "╣", "╬")
