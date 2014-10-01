@@ -3,22 +3,22 @@
 class Player(object):
   def __init__(self, window, x, y, stats, health=None, mana=None, effects=None, facing="n"):
     self._window = window
-    
+
     if facing == 0: facing = "n"
     elif facing == 1: facing = "e"
     elif facing == 2: facing = "s"
     elif facing == 3: facing = "w"
-    
+
     self._facing = facing
-    
+
     self._stats = stats
-    
+
     if health == None: health = self._stats.max_health
     if mana == None: mana = self._stats.max_mana
-    
+
     self.health = health
     self.mana = mana
-    
+
     self._effects = effects
     self.x = x
     self.y = y
@@ -36,7 +36,7 @@ class Player(object):
     else:                                             draw_char = "▲"
 
     self._window.draw_string(x, y, draw_char, 1)
- 
+
   def front(self):
     if self._facing in ("down", "d", "south", "s"):
       return (self.x, self.y+1)

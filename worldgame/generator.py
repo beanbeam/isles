@@ -37,7 +37,7 @@ def new_map(w, h):
         tiles[i,j] = 5
       else:
         tiles[i,j] = 6
-  
+
   time_tile_end = time.clock()
 
   # VERY SLOW, ALSO BAD
@@ -127,7 +127,7 @@ def _place_river(tiles, thght, metad, w, h, min_length, x=None, y=None):
     prev_h = thght[curr_x, curr_y]
     curr_x += min_dir[0]
     curr_y += min_dir[1]
-  if len(r_tiles) < min_length: return False 
+  if len(r_tiles) < min_length: return False
   l_tiles = []
   if not into_water:
     l_tiles =_get_lake(thght, curr_x, curr_y, w, h, len(r_tiles))
@@ -220,7 +220,7 @@ def _place_tree_grove(tiles, metad, w, h):
           tiles[i+x, j+y] = 11
           if random.random() > .5:
             metad[i+x, j+y] = 1
-                            
+
 
 def _try_place_random_city(tiles, w, h):
   x = int(random.random()*(w-25-4))+2

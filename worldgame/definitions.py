@@ -215,5 +215,5 @@ def _connect_char(md, bs, connect_to, chars):
   if s:
     if w: return chars[5]
     return chars[1]
-  if w: return chars[2]  
+  if w: return chars[2]
   return chars[0]

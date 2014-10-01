@@ -22,7 +22,7 @@ def main_menu(win):
   win.clear()
   for i, line in enumerate(definitions.menu_icon):
     win.draw_string_centered(i+2, line)
-  
+
   ver = definitions.version_string
   win.draw_string(win.width-len(ver), win.height-1, ver)
 

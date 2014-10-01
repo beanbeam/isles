@@ -13,13 +13,13 @@ class Tile(object):
     self.solid_when        = solid_when
     self.interactions_when = interactions_when
     self.actions_when      = actions_when
-  
+
   def interact(self, player, meta, near):
     interactions = self.interactions_when(meta, near)
     if len(interactions) <= 0: return meta
     if len(interactions) == 1:
       return interactions[0](player, meta, near)
-  
+
   def draw(self, x, y, meta, near):
     self._window.draw_string(x, y, self.char_when(meta, near),
                                    self.color_when(meta, near))
