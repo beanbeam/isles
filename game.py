@@ -1,5 +1,3 @@
-#! /usr/bin/python
-
 import scurses.window as window
 import scurses.colors as colors
 import worldgame.tiles as tiles
@@ -12,6 +10,9 @@ import numpy
 import os
 
 SAVE_PATH = os.path.join(os.path.expanduser("~"), "world.dat")
+
+def main():
+  window.CursesWindow(init, 80, 24)
 
 def init(win):
   colors.init(definitions.color_list)
@@ -52,8 +53,8 @@ def main_game(win, load=None):
 
   if load == None:
     w = world.World(win, generator.new_map(mwidth, mheight),
-                         player.Player(win, mwidth/2, mheight/2, player.Stats(100, 100), 30, 30))
-    w.spawn_player_near(mwidth/2,mheight/2, 25)
+                         player.Player(win, mwidth//2, mheight//2, player.Stats(100, 100), 30, 30))
+    w.spawn_player_near(mwidth//2,mheight//2, 25)
   elif os.path.exists(load):
     w = world.load(win, load)
   else: back_to_menu = True
@@ -83,4 +84,5 @@ def main_game(win, load=None):
 
   main_menu(win)
 
-window.CursesWindow(init, 80, 24)
+if __name__ == "__main__":
+  main()

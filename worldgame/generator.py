@@ -1,14 +1,14 @@
 #! /usr/bin/python
 
+import worldgame.tiles
 import noise
 import numpy
-import tiles
 import random
 from math import hypot
 import time
 
 def new_map(w, h):
-  time_start = time.clock()
+  time_start = time.time()
 
   thght = numpy.empty((w, h), numpy.float32)
   tiles = numpy.empty((w, h), numpy.uint8)
@@ -38,7 +38,7 @@ def new_map(w, h):
       else:
         tiles[i,j] = 6
 
-  time_tile_end = time.clock()
+  time_tile_end = time.time()
 
   # VERY SLOW, ALSO BAD
   #_generate_watershed(tiles, thght, w, h)
@@ -53,21 +53,21 @@ def new_map(w, h):
       placed_rivers += 1
       if r == "Lake": placed_lakes += 1
 
-  time_river_end = time.clock()
+  time_river_end = time.time()
 
   placed_cities = 0
   while placed_cities < 30:
     if _try_place_random_city(tiles, w, h):
       placed_cities += 1
 
-  time_city_end = time.clock()
+  time_city_end = time.time()
 
   placed_groves = 0
   for i in range(100):
     _place_tree_grove(tiles, metad, w, h)
     placed_groves += 1
 
-  time_trees_end = time.clock()
+  time_trees_end = time.time()
 
   map_info = ("%sx%s World Generated" % (w, h),
               "| %s Tiles generated in %s seconds" % (w*h, time_tile_end-time_start),
@@ -113,7 +113,7 @@ def _place_river(tiles, thght, metad, w, h, min_length, x=None, y=None):
       if nx >= 0 and ny >= 0 and nx < w and ny < h:
         hght = thght[nx, ny]
         if (tiles[nx, ny] in (3, 12) and
-            hght < prev_h): # always flow into nearby rivers/water
+            prev_h is not None and hght < prev_h): # always flow into nearby rivers/water
           into_water = True
           break
         if hght < min_height:
@@ -243,11 +243,11 @@ def _place_city(x, y, w, h, tiles):
   for i in range(w):
     for j in range(h):
       if i == 0 or i == w-1 or j == 0 or j == h-1:
-        if i == w/2 or j == h/2:
+        if i == w//2 or j == h//2:
           tiles[x+i, y+j] = 7
         else:
           tiles[x+i, y+j] = 8
-      elif i == w/2 or j == h/2:
+      elif i == w//2 or j == h//2:
         tiles[x+i, y+j] = 9
       elif random.random() > .6:
         tiles[x+i, y+j] = 10

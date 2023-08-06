@@ -1,7 +1,7 @@
-import tiles
+import worldgame.tiles as tiles
+import worldgame.player as player
 import numpy
 import time
-import player
 
 def load(win, filename):
   with open(filename, "r") as f:
@@ -54,16 +54,16 @@ class World(object):
     if y is None: y = self._player.y
     w = self._window.width
     h = self._window.height
-    for i, j, tile, meta, neig in self._tiles_within(x-(w/2), y-(h/2), w, h-2):
+    for i, j, tile, meta, neig in self._tiles_within(x-(w//2), y-(h//2), w, h-2):
       tile.draw(i, j, meta, neig)
-    self._player.draw(w/2,h/2)
+    self._player.draw(w//2,h//2)
     self._window.draw_string(0,h-2, "(%s,%s)%s" % (x, y, " "*w))
 
     # Health bar
-    hp_width = w/2
+    hp_width = w//2
     hp = self._player.health
     hp_max = self._player._stats.max_health
-    hp_filled = hp_width*hp/hp_max
+    hp_filled = hp_width*hp//hp_max
     health_string = (" HP: %s/%s" % (hp, hp_max) + " "*hp_width)[:hp_width]
     self._window.draw_string(0,h-1, health_string[:hp_filled], 15)
     self._window.draw_string(hp_filled, h-1, health_string[hp_filled:], 16)
@@ -72,14 +72,14 @@ class World(object):
     mp_width = w-hp_width
     mp = self._player.mana
     mp_max = self._player._stats.max_mana
-    mp_filled = mp_width*mp/mp_max
+    mp_filled = mp_width*mp//mp_max
     mana_string = (" MP: %s/%s" % (mp, mp_max) + " "*mp_width)[:mp_width]
     self._window.draw_string(hp_width,h-1, mana_string[:mp_filled], 4)
     self._window.draw_string(hp_width+mp_filled, h-1, mana_string[mp_filled:], 17)
 
     # Tile information
-    facing_t = apply(self.tile_at, self._player.front())
-    facing_m = apply(self.meta_at, self._player.front())
+    facing_t = self.tile_at(*self._player.front())
+    facing_m = self.meta_at(*self._player.front())
 
     tile_name = facing_t.name_when(facing_m, ())
     self._window.draw_string(w-len(tile_name), h-2, tile_name)

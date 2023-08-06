@@ -1,9 +1,8 @@
-# coding=UTF-8
+from worldgame.tiles import Tile
 from scurses.colors import *
-from tiles import Tile
 from random import random
 
-version_string = "0.1.5"
+version_string = "0.2.0"
 
 menu_icon = ("...                  ",
              " :  ... .   ... ... :",
@@ -20,7 +19,10 @@ help_page = ("Arrow Keys / WASD - Move",
              "If you can interact with it, it will",
              "be preceded by a white box.")
 
-changelog = ("0.1.5 - 2013/06/21",
+changelog = ("0.2.0 - 2023/08/06",
+             " • Added Python3 support.",
+             " • Added Poetry support for running with the necessary dependencies.",
+             "0.1.5 - 2013/06/21",
              " • Fixed the issue where rivers could flow parallel, which caused",
              "    them to visually connect at each tile and look bad. There",
              "    should be no more of this now: ├┬┬┬┬┬┬────",
